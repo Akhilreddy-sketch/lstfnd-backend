@@ -1,18 +1,23 @@
 package com.lostfound.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(@org.springframework.lang.NonNull CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://localhost:5173", "https://lstfnd-frontend-y9ve.vercel.app")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+public class WebConfig {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@org.springframework.lang.NonNull CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("https://lstfnd-frontend.vercel.app", "http://localhost:5173")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 }

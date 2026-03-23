@@ -16,20 +16,35 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping
-    public ResponseEntity<Item> createItem(@org.springframework.lang.NonNull @RequestBody Item item) {
-        Item savedItem = itemService.saveItem(item);
-        return ResponseEntity.ok(savedItem);
+    public ResponseEntity<?> createItem(@org.springframework.lang.NonNull @RequestBody Item item) {
+        try {
+            Item savedItem = itemService.saveItem(item);
+            return ResponseEntity.ok(savedItem);
+        } catch (Exception e) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.BAD_REQUEST)
+                    .body(java.util.Map.of("error", "Error creating item: " + e.getMessage()));
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Item>> getAllItems() {
-        List<Item> items = itemService.getAllItems();
-        return ResponseEntity.ok(items);
+    public ResponseEntity<?> getAllItems() {
+        try {
+            List<Item> items = itemService.getAllItems();
+            return ResponseEntity.ok(items);
+        } catch (Exception e) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(java.util.Map.of("error", "Error fetching items: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
-        itemService.deleteItem(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteItem(@PathVariable Long id) {
+        try {
+            itemService.deleteItem(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND)
+                    .body(java.util.Map.of("error", "Error deleting item: " + e.getMessage()));
+        }
     }
 }

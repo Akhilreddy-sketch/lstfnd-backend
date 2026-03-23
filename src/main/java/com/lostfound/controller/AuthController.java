@@ -17,7 +17,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/register")
+    @PostMapping({"/register", "/signup"})
     public ResponseEntity<?> register(@org.springframework.lang.NonNull @RequestBody User user) {
         try {
             User registeredUser = authService.registerUser(user);
