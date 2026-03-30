@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
         // Enable Credentials
         config.setAllowCredentials(true);
 
-        // Allowed Origins (Specific URLs and dynamic wildcards for Vercel previews)
+        // Allowed Origins
         config.setAllowedOriginPatterns(Arrays.asList(
                 "https://lstfnd-frontend-g31tz66r2-akhilreddy10052005-9037s-projects.vercel.app",
                 "https://lstfnd-frontend-iqwwq0g5u-akhilreddy10052005-9037s-projects.vercel.app",
@@ -33,9 +33,19 @@ public class WebConfig implements WebMvcConfigurer {
                 "http://127.0.0.1:[*]"
         ));
 
-        // Allowed Methods & Headers
+        // Allowed Methods
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Accept", "X-Requested-With"));
+        
+        // Allowed Headers (Adding more for safety)
+        config.setAllowedHeaders(Arrays.asList(
+                "Content-Type", 
+                "Authorization", 
+                "Accept", 
+                "X-Requested-With", 
+                "Origin", 
+                "Access-Control-Request-Method", 
+                "Access-Control-Request-Headers"
+        ));
         
         // Exposed headers for the frontend
         config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
@@ -46,5 +56,6 @@ public class WebConfig implements WebMvcConfigurer {
         return new CorsFilter(source);
     }
 }
+
 
 
