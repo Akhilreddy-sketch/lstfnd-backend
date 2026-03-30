@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
+import com.lostfound.dto.RegisterRequest;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -18,10 +20,15 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping({"/register", "/signup"})
-    public ResponseEntity<?> register(@org.springframework.lang.NonNull @RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        System.out.println("REGISTER API HIT"); // for debug
         try {
+            User user = new User();
+            user.setUsername(request.getUsername());
+            user.setEmail(request.getEmail());
+            user.setPassword(request.getPassword());
             User registeredUser = authService.registerUser(user);
-            return ResponseEntity.ok(Map.of("message", "Registration successful", "user", registeredUser));
+            return ResponseEntity.ok(Map.of("message", "User registered", "user", registeredUser));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         }
