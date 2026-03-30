@@ -10,7 +10,6 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -21,21 +20,24 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow credentials
+        // Enable Credentials
         config.setAllowCredentials(true);
 
-        // Production-safe origins (Specific Vercel and local URLs)
+        // Allowed Origins (Specific URLs and dynamic wildcards for Vercel previews)
         config.setAllowedOriginPatterns(Arrays.asList(
+                "https://lstfnd-frontend-g31tz66r2-akhilreddy10052005-9037s-projects.vercel.app",
                 "https://lstfnd-frontend-iqwwq0g5u-akhilreddy10052005-9037s-projects.vercel.app",
+                "https://lstfnd-frontend-*.vercel.app",
                 "https://lstfnd-frontend.vercel.app",
                 "http://localhost:[*]",
                 "http://127.0.0.1:[*]"
         ));
 
-        config.setAllowedHeaders(Collections.singletonList("*"));
+        // Allowed Methods & Headers
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Accept", "X-Requested-With"));
         
-        // Exposed headers for the frontend to read
+        // Exposed headers for the frontend
         config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
         
         config.setMaxAge(3600L);
@@ -44,4 +46,5 @@ public class WebConfig implements WebMvcConfigurer {
         return new CorsFilter(source);
     }
 }
+
 
