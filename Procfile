@@ -1,1 +1,1 @@
-web: java -jar target/lstfndbackend.jar
+web: java -jar target/lstfndbackend-0.0.1-SNAPSHOT.jar
