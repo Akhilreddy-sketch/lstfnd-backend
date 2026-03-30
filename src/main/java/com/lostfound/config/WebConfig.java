@@ -15,22 +15,21 @@ public class WebConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        
+
         // Allow Vercel and Localhost
         config.setAllowedOrigins(Arrays.asList(
-            "https://lstfnd-frontend.vercel.app", 
-            "http://localhost:5173",
-            "http://localhost:3000"
-        ));
-        
+                "https://lstfnd-frontend.vercel.app",
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "https://lstfnd-frontend.vercel.app/"));
+
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L); // Cache preflight for 1 hour
-        
+
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }
-
