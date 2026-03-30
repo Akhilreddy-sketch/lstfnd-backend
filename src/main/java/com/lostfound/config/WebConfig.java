@@ -21,21 +21,27 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
+        // Allow credentials
         config.setAllowCredentials(true);
-        // Use patterns to support wildcards and varied origins
+
+        // Production-safe origins (Specific Vercel and local URLs)
         config.setAllowedOriginPatterns(Arrays.asList(
+                "https://lstfnd-frontend-iqwwq0g5u-akhilreddy10052005-9037s-projects.vercel.app",
                 "https://lstfnd-frontend.vercel.app",
-                "https://lstfnd-frontend-*.vercel.app", // Match deployment previews
                 "http://localhost:[*]",
                 "http://127.0.0.1:[*]"
         ));
 
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        
+        // Exposed headers for the frontend to read
+        config.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+        
         config.setMaxAge(3600L);
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }
+
